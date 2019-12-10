@@ -1,2 +1,2 @@
 # sgws-for-ivpp
-A simple &amp; general web system for image&amp;vedio processing algorithms presentation
+a Simple &amp; General Web System for Image&amp;Vedio Processing algorithms Presentation
