@@ -1,0 +1,14 @@
+.idea/
+
+mysite/*/__pycache__/
+
+mysite/*/migrations/
+
+*.pyc
+
+*.sqlite3
+
+mysite/static/admin/
+
+static_collected/
+
