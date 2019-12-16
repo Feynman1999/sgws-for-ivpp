@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    {% block meta_extend %}{% endblock %}
+
+    <title>{% block title%}no name{%endblock%}</title>
+
+    <!-- lable icon -->
+    <link href="{% static 'icons/aoj_icon.png' %}" rel="shortcut icon" >
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap-4.1.3/css/bootstrap.min.css' %}" rel="stylesheet">
+<!--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="{% static 'open-iconic/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    {% block header_extend %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <button class="navbar-toggler" type="button" data-target="#navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item  {% block 主页高亮 %}{% endblock %}">
+            <a class="nav-link" href=""><span class="oi oi-home" title="home" aria-hidden="true"></span> Home</a>
+          </li>&nbsp&nbsp
+          <li class="nav-item  {% block 关于高亮 %}{% endblock %}">
+            <a class="nav-link" href=""><span class="oi oi-tag" title="tag" aria-hidden="true"></span> About</a>
+          </li>&nbsp&nbsp
+          <li class="nav-item  {% block 题目列表高亮 %}{% endblock %}">
+            <a class="nav-link" href=""><span class="oi oi-list" title="list" aria-hidden="true"></span> 题目列表</a>
+          </li>&nbsp&nbsp
+        </ul>
+        <ul class="navbar-nav ml-auto"></ul>
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navdrop" data-toggle="dropdown" data-hover="dropdown"><span class="oi oi-person" title="person" aria-hidden="true" ></span> {{user.username}}</a>
+              <div class="dropdown-menu" aria-labelledby="navdrop">
+                  <a href="" class="dropdown-item">个人信息</a>
+                  <a href="" class="dropdown-item">添加信息</a>
+                  {% if user.is_staff %}
+                      <a href="http://127.0.0.1:8000/admin/problem/problems/" class="dropdown-item">题目管理</a>
+                          {% if user.is_superuser %}
+                              <a href="" class="dropdown-item">后台管理</a>
+                          {% endif %}
+                  {% endif %}
+                  <a href="" class="dropdown-item">退出登录</a>
+              </div>
+            </li>
+          {% else %}
+            <li class="nav-item navbar-expand-md {% block 登录高亮 %}{% endblock %} ">
+              <a class="nav-link" href=""><span class="oi oi-account-login" title="account-login" aria-hidden="true"></span> 登录</a>
+            </li>&nbsp&nbsp
+            <li class="nav-item navbar-expand-md {% block 注册高亮 %}{% endblock %} ">
+              <a class="nav-link" href=""><span class="oi oi-people" title="people" aria-hidden="true" ></span> 注册</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+
+    <main role="main" class="container">
+        <br>
+        <!--信息-->
+        <div class="alert alert-{% if user.is_authenticated %}primary{% else %}warning{% endif %} alert-dismissible fade show" role="alert">
+          <strong><center>
+              {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                  {% if user.is_superuser %}
+                      尊敬的超超...超级管理员，AOJ随时待命┭┮﹏┭┮
+                      {% else %}
+                      尊敬的管理员，欢迎━(*｀∀´*)ノ亻!
+                  {% endif %}
+                {% else %}
+                  欢迎来到AOJ━(*｀∀´*)ノ亻!
+                {% endif %}
+              {% else %}
+                登录以访问更多内容！(╥╯^╰╥)
+              {% endif %}
+          </center></strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% block 主体 %} {% endblock %}
+    </main>
+
+
+    <button type="button" id="btnScroll" class="btn btn-danger btn-lg" onclick="toUp()">
+        <strong>Top</strong>
+    </button>
+
+
+    <!-- Footer -->
+    <section id="footer">
+      <div class="container">
+        <div class="row text-center text-xs-center text-sm-left text-md-left">
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>相关站点</h5>
+            <ul class="list-unstyled quick-links">
+              <li><a href="https://vjudge.net/"><i class="fa fa-angle-double-right"></i>vjudge</a></li>
+              <li><a href="http://codeforces.com/"><i class="fa fa-angle-double-right"></i>codeforces</a></li>
+              <li><a href="http://acm.hdu.edu.cn/"><i class="fa fa-angle-double-right"></i>hduoj</a></li>
+              <li><a href="http://poj.org/"><i class="fa fa-angle-double-right"></i>POJ</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>ACM BLOG</h5>
+            <ul class="list-unstyled quick-links">
+              <li><a href="https://blog.csdn.net/pengwill97?viewmode=list"><i class="fa fa-angle-double-right"></i>pengwill</a></li>
+              <li><a href="http://nightwing.top/"><i class="fa fa-angle-double-right"></i>Robin</a></li>
+              <li><a href="http://www.cnblogs.com/SCaryon/"><i class="fa fa-angle-double-right"></i>SCaryon</a></li>
+              <li><a href="https://blog.csdn.net/feynman1999"><i class="fa fa-angle-double-right"></i>feynman1999</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>ACM BLOG</h5>
+            <ul class="list-unstyled quick-links">
+              <li><a href="http://www.cnblogs.com/wmrv587"><i class="fa fa-angle-double-right"></i>wmr</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+            <p class="h6">&copy All right Reversed.<a class="ml-2" href="#">AOJ</a></p>
+          </div>
+          </hr>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'jquery-3.3.1/jquery-3.3.1.min.js' %}"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>-->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
+    <script src="{% static 'bootstrap-4.1.3/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/scroll.js' %}"></script>
+    <script src="{% static 'js/footer.js' %}"></script>
+<!--    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
+  </body>
+</html>
